@@ -25,36 +25,14 @@ let readFileAndRemoveDuplicates = (directory, fileName) => {
 
     return fileHelper.ensureDirectoryExists(uniqueDirectory)
         .then(() => handler.readFromFileAndRemoveDupes(filePath))
-        .then((result)=>{
-            if(result.report) {
-                reports.push(result.report);
-            }
-            return syntaxValidation.validate(result.data);
-        })
+        .then(syntaxValidation.validate)
         .then((result) => {
-            if(result.report) {
-                reports.push(result.report);
-            }
-            printReport(reports);
-            return result;
-        })
-        .then((result) => {
-            return handler.save(result.data, uniqueFilePath)
+            return handler.save(result, uniqueFilePath)
         });
 };
 
 let getFileExtension = (fileName) => {
     return fileName.split('.').pop();
-};
-
-let printReport = (reports) => {
-    _.each(reports, (report)=>{
-        console.log('-----------');
-        for(var key in report) {
-            console.log(key, ' -> ', report[key]);
-        }
-    });
-
 };
 
 module.exports = {
