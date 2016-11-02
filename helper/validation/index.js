@@ -10,8 +10,8 @@ const syntaxValidation = require('./syntax');
 let startValidation = (directory, files, header) => {
     return promise.map(files, function (file) {
         return readFileAndRemoveDuplicates(directory, file, header);
-    });/*.then((result) => {
-        /!*report.endTime = new Date();
+    }).then((result) => {
+        /*report.endTime = new Date();
         if(!_.isArray(result)) {
             result = [result];
         }
@@ -26,10 +26,12 @@ let startValidation = (directory, files, header) => {
         printReport(report);
         responseHelper.success(response, {
             report: report
-        });*!/
+        });*/
+        console.log('-----Got the result-----');
         console.log(result);
+        console.log('-----END-----')
         return result;
-    });*/
+    });
 };
 
 let readFileAndRemoveDuplicates = (directory, fileName, header) => {
