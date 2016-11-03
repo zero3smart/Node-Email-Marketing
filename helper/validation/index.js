@@ -6,31 +6,14 @@ const fileHelper = require('../file');
 const csvHandler = require('./csv');
 const xlxHandler = require('./xlx');
 const syntaxValidation = require('./syntax');
+const staticRemover = require('./staticlistremover/index');
 
 let startValidation = (directory, files, header) => {
     return promise.map(files, function (file) {
         return readFileAndRemoveDuplicates(directory, file, header);
     }).then((result) => {
-        /*report.endTime = new Date();
-        if(!_.isArray(result)) {
-            result = [result];
-        }
-        result.forEach((r) => {
-            if(r.report) {
-                var tempReport = {};
-                temp[r.report.fileName] = r.report;
-                report =_.merge(report, temp);
-            }
-        });
-
-        printReport(report);
-        responseHelper.success(response, {
-            report: report
-        });*/
         console.log('-----Got the result-----');
-        console.log(result);
-        console.log('-----END-----')
-        return result;
+        return staticRemover.removeStaticListEmails(result, header);
     });
 };
 
