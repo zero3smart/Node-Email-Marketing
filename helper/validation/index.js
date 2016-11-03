@@ -12,8 +12,7 @@ let startValidation = (directory, files, header) => {
     return promise.map(files, function (file) {
         return readFileAndRemoveDuplicates(directory, file, header);
     }).then((result) => {
-        console.log('-----Got the result-----');
-        return staticRemover.removeStaticListEmails(result, header);
+        return staticRemover.start(result, header);
     });
 };
 
