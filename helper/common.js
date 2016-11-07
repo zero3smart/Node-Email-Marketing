@@ -2,6 +2,7 @@
  * Created by titu on 11/2/16.
  */
 const _ = require('lodash');
+const dbHelper = require('./database');
 
 let getEmailParts = (email) => {
 
@@ -19,10 +20,20 @@ let getEmailParts = (email) => {
         user: match[1],
         domain: match[2],
         endings: match[4]
-    }
+    };
 
 };
 
+let getWhiteListedDomains = () => {
+    return dbHelper.dbClient.collection('whitelisted_domains')
+        .find({})
+        .toArray()
+        .then( (domains) => {
+            return _.map(domains, 'domain');
+        });
+};
+
 module.exports = {
-    getEmailParts: getEmailParts
+    getEmailParts: getEmailParts,
+    getWhiteListedDomains: getWhiteListedDomains
 };
