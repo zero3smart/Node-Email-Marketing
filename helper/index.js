@@ -6,6 +6,7 @@ const fileHelper = require('./file');
 const zipHelper = require('./zip');
 const readerHelper = require('./reader');
 const validationHelper = require('./validation/index');
+const verificationHelper = require('./verification/index');
 const database = require('./database');
 
 module.exports = {
@@ -14,5 +15,6 @@ module.exports = {
     zip: zipHelper,
     reader: readerHelper,
     validation: validationHelper,
+    verification: verificationHelper,
     database: database
 };
