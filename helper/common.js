@@ -7,7 +7,8 @@ const global = require('../config/global');
 
 let getEmailParts = (email) => {
 
-    var match = /(.*)@+([^.]*\.{1}\w+)((\.{1}\w+))*/g.exec(email);
+    //var match = /(.*)@+([^.]*\.{1}\w+)((\.{1}\w+))*/g.exec(email);
+    var match = /(.*)@+([^.]*\.{1}[^\..]*)((\.{1}[^\..]*))*/g.exec(email);
     if(_.isNil(match)) {
         console.log('problem in breaking the email into parts: ' + email);
         return {
