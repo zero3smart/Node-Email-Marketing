@@ -11,11 +11,19 @@ module.exports = {
             emailIndex: 0
 
         };
-        let result = {data: [[email]]};
+        let result = {
+            data: [[email]],
+            failed: false
+        };
 
         return syntaxValidation.validate(result, header)
             .then((result) => {
-                return staticRemover.start([result], header);
+                if (result && !result.data.length) {
+                    result.failed = true;
+                    return result;
+                }
+                result.email = result.data[0][0].toLowerCase();
+                return staticRemover.search(result);
             });
     }
 };
