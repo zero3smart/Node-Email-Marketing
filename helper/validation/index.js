@@ -19,12 +19,12 @@ let startValidation = (directory, files, header) => {
 let readFileAndRemoveDuplicates = (directory, fileName, header) => {
 
     let filePath = directory + '/' + fileName;
-    let uniqueDirectory = directory + '/unique/';
-    let uniqueFilePath = uniqueDirectory + fileName;
+    let cleanDirectory = directory + '/clean/';
+    let uniqueFilePath = cleanDirectory + fileName;
     let handler = getHandler(getFileExtension(fileName).toLowerCase());
     let delimiter = null;
 
-    return fileHelper.ensureDirectoryExists(uniqueDirectory)
+    return fileHelper.ensureDirectoryExists(cleanDirectory)
         .then(() => handler.readFromFileAndRemoveDupes(filePath, header))
         .then((result) => {
             if(result.delimiter) {
