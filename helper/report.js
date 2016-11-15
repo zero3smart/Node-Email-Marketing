@@ -6,6 +6,7 @@ const _ = require('lodash');
 const settings = require('../config/settings');
 const commonHelper = require('./common');
 const promise = require('bluebird');
+const zipHelper = require('./zip');
 
 let saveReports = (results, directory, header) => {
 
@@ -35,6 +36,9 @@ let saveReports = (results, directory, header) => {
                 });
         }
     })
+        .then(() => {
+            return zipHelper.zip(cleanDirectory, new Date().getTime().toString() + '.zip', 'zip');
+        })
         .then(() => {
             return results;
         });
