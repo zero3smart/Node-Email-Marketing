@@ -8,6 +8,7 @@ const commonHelper = require('./common');
 const promise = require('bluebird');
 const zipHelper = require('./zip');
 const pdf = require('html-pdf');
+const fileHelper = require('./file');
 
 let saveReports = (report, directory, header) => {
 
@@ -38,10 +39,13 @@ let saveReports = (report, directory, header) => {
         }
     })
         .then(() => {
-            return zipHelper.zip(cleanDirectory, new Date().getTime().toString() + '.zip', 'zip');
+            return createPDFReport(report, directory);
         })
         .then(() => {
-            return createPDFReport(report, directory);
+            return zipHelper.zip(cleanDirectory, report.fileId, 'zip');
+        })
+        .then(() => {
+            return fileHelper.saveZipToFTP(report);
         });
 
 };
