@@ -90,10 +90,24 @@ let getFTPFiles = (dirInfo) => {
                     return ftp.getAsync(remoteFile, localFile)
                         .then( () => {
                             return prepareFiles(localDirectory);
+                        }).catch((e) => {
+                            console.log('ERROR CATCHED IN ensure directory exist!');
+                            console.log(e);
+                            throw e;
                         })
-                });
+                })
+                .catch((e) => {
+                    console.log('ERROR CATCHED ON ensure directory exist!');
+                    console.log(e);
+                    throw e;
+                })
 
-        });
+        })
+        .catch((e) => {
+            console.log('ERROR CATCHED IN getUserFTPConfiguration call!');
+            console.log(e);
+            throw e;
+        })
 };
 
 let saveZipToFTP = (report) => {
