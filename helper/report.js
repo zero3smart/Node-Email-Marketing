@@ -46,6 +46,10 @@ let saveReports = (report, directory, header) => {
         })
         .then(() => {
             return fileHelper.saveZipToFTP(report);
+        }).catch((e) => {
+            console.log('ERROR CATCHED IN REPORT!');
+            console.log(e);
+            throw e;
         });
 
 };
