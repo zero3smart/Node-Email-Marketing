@@ -27,8 +27,6 @@ let _dnsCacheWithRedis = function dnsCacheRedis(config) {
     config.ttl = config.ttl || 2592000 // Cache for 30 days
 
     this.set = function (key, value, callback) {
-        console.log('SET ' + redisKey + key + ' = ' + JSON.stringify(value));
-
         redisClient.set(redisKey + key, JSON.stringify(value), 'NX', 'EX', config.ttl, function (err) {
             if (callback) {
                 callback(err, value);
@@ -37,8 +35,6 @@ let _dnsCacheWithRedis = function dnsCacheRedis(config) {
     };
 
     this.get = function (key, callback) {
-        console.log('GET ' + redisKey + key);
-
         redisClient.get(redisKey + key, function (err, item) {
             if (callback) {
                 callback(err, JSON.parse(item));
