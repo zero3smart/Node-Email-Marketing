@@ -9,7 +9,7 @@ let formatOut = bunyanFormat({
 });
 
 let log = bunyan.createLogger({
-    name: 'NodeAPIServer',
+    name: 'VRAPIRoot',
     stream: formatOut,
     level: 'debug',
     serializers: {
