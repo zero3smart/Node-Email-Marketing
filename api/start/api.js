@@ -58,6 +58,8 @@ module.exports = {
             fileName: query.fileName,
             cleanId: new objectID(),
             userName: query.userName,
+            ftpHost: query.ftpHost,
+            ftpPassword: query.ftpPassword
         };
         let header = query.header || {
                 header: false,
@@ -92,6 +94,10 @@ module.exports = {
             });
             return;
         }
+
+        dirInfo.ftpRootDirectory = query.ftpRootDirectory || 'dirty';
+        dirInfo.ftpPort = query.ftpPort || 21;
+
         let time = new Time();
         time.start('clean');
 
@@ -126,7 +132,7 @@ module.exports = {
             })
             .then((result) => {
                 log.info('# 6. Saving Reports');
-                return apiHelper.saveReports(result, report, directory, time, header);
+                return apiHelper.saveReports(result, report, directory, time, header, dirInfo);
             })
             .then((finalReport) => {
                 log.info('# 7. Sending Response');

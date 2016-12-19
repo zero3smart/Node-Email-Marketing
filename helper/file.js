@@ -67,7 +67,7 @@ let getFTPFiles = (dirInfo) => {
 
     let ftp = null;
 
-    return commonHelper.getUserFTPConfiguration(dirInfo.userName)
+    return commonHelper.getUserFTPConfiguration(dirInfo)
         .then((ftpConfig) => {
             if(!ftpConfig) {
                 return {
@@ -76,12 +76,12 @@ let getFTPFiles = (dirInfo) => {
             }
             ftp = new JSFtp({
                 host: ftpConfig.HostName,
-                port: ftpConfig.port || 21,
+                port: ftpConfig.Port || 21,
                 user: ftpConfig.UserName, // defaults to "anonymous"
                 pass: ftpConfig.Password // defaults to "@anonymous"
             });
 
-            let remoteFile = ftpConfig.RootFolder + '/' + dirInfo.fileName;
+            let remoteFile = ftpConfig.RootDirectory + '/' + dirInfo.fileName;
             let localDirectory = config.global.userUploadsDir + '/' + dirInfo.userName + '/' + dirInfo.cleanId + '/';
             let localFile = localDirectory + dirInfo.fileName;
             ftp = promise.promisifyAll(ftp);
@@ -123,10 +123,10 @@ let getFTPFiles = (dirInfo) => {
         })
 };
 
-let saveZipToFTP = (report) => {
+let saveZipToFTP = (report, dirInfo) => {
     let ftp = null;
 
-    return commonHelper.getUserFTPConfiguration(report.userName)
+    return commonHelper.getUserFTPConfiguration(dirInfo)
         .then((ftpConfig) => {
             log.info('writing the zip to ftp');
             ftp = new JSFtp({
@@ -135,13 +135,18 @@ let saveZipToFTP = (report) => {
                 user: ftpConfig.UserName, // defaults to "anonymous"
                 pass: ftpConfig.Password // defaults to "@anonymous"
             });
-            let remoteFile = 'clean/' + report.cleanId + '.zip';
+            let remoteZipFile = 'clean/' + report.cleanId + '.zip';
+            let remoteReportFile = 'clean/report_' + report.cleanId + '.pdf';
             let localDirectory = config.global.userUploadsDir + '/' + report.userName + '/' + report.cleanId + '/';
-            let localFile = localDirectory + 'clean/' + report.cleanId + '.zip';
+            let localZipFile = localDirectory + 'clean/' + report.cleanId + '.zip';
+            let localReportFile = localDirectory + 'clean/' + 'report.pdf';
 
             ftp = promise.promisifyAll(ftp);
 
-            return ftp.putAsync(localFile, remoteFile)
+            return ftp.putAsync(localZipFile, remoteZipFile)
+                .then(function () {
+                    return ftp.putAsync(localReportFile, remoteReportFile)
+                })
                 .catch((e) => {
                     log.error('ERROR CATCHED IN File putAsync!', e);
                     throw e;

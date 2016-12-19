@@ -49,12 +49,22 @@ let getDNSServers = () => {
         });
 };
 
-let getUserFTPConfiguration = (userName) => {
-    return dbHelper.dbClient.collection('client_ftpmaster')
+let getUserFTPConfiguration = (dirInfo) => {
+    /*return dbHelper.dbClient.collection('client_ftpmaster')
         .findOne({UserName: userName})
         .then((userFTPConfig) => {
             return userFTPConfig;
+        });*/
+    return new Promise(function (resolve, reject) {
+        resolve({
+            HostName: dirInfo.ftpHost,
+            Port : dirInfo.ftpPort,
+            UserName: dirInfo.userName,
+            Password: dirInfo.ftpPassword,
+            RootDirectory: dirInfo.ftpRootDirectory
         });
+    });
+
 };
 
 let getReportMapper = () => {

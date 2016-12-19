@@ -12,7 +12,7 @@ const fileHelper = require('./file');
 const moment = require('moment');
 const log = require('./log');
 
-let saveReports = (report, directory, header) => {
+let saveReports = (report, directory, header, dirInfo) => {
 
     let cleanDirectory = directory + '/' + settings.cleanDirectory + '/';
 
@@ -59,7 +59,7 @@ let saveReports = (report, directory, header) => {
         })
         .then(() => {
             log.info('Uploading the zip to FTP');
-            return fileHelper.saveZipToFTP(report);
+            return fileHelper.saveZipToFTP(report, dirInfo);
         }).catch((e) => {
             log.error('ERROR CATCHED IN REPORT!', e);
             throw e;

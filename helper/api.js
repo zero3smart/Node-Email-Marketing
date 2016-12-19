@@ -53,7 +53,7 @@ let startValidation = (directory, files, header, scrubOptions, dirInfo) => {
         });
 };
 
-let saveReports = (results, report, directory, time, header) => {
+let saveReports = (results, report, directory, time, header, dirInfo) => {
     report.endTime = new Date().getTime();
     report.totalRecordsAfterClean = 0;
     report.totalPreCleanRecords = 0;
@@ -76,7 +76,7 @@ let saveReports = (results, report, directory, time, header) => {
     });
 
     report.timeRequired = time.end('clean');
-    return reportHelper.saveReports(report, directory, header);
+    return reportHelper.saveReports(report, directory, header, dirInfo);
 };
 
 let sendResponse = (finalReport, response, dirInfo) => {
