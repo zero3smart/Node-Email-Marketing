@@ -230,7 +230,7 @@ let checkEmail = (results, header) => {
                         );
                         result.report.saveReports.push(
                             {
-                                reportName: 'A record',
+                                reportName: 'Missing A Record',
                                 data: mxStandardFailed
                             }
                         );
