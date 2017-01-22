@@ -59,7 +59,8 @@ module.exports = {
             cleanId: new objectID(),
             userName: query.userName,
             ftpHost: query.ftpHost,
-            ftpPassword: query.ftpPassword
+            ftpPassword: query.ftpPassword,
+            generateAllReports: query.generateAllReports || false
         };
         let header = query.header || {
                 header: false,

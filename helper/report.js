@@ -37,6 +37,9 @@ let saveReports = (report, directory, header, dirInfo) => {
                     }
                 });
                 //write the report files
+                if(!dirInfo.generateAllReports) {
+                    return;
+                }
                 return handler.save(data, cleanDirectory, (reportToSave.reportName + '_' + fileNameWithoutExtension), false, delimiter);
             })
                 .then(() => {
