@@ -10,7 +10,7 @@ const babyparse = require('babyparse');
 const XLSX = promise.promisifyAll(require('xlsx'));
 const log = require('../log');
 
-let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
+let readFromFileAndRemoveDupes = (dirInfo, filePath, header, scrubOptions) => {
     return new promise((resolve, reject) => {
         let workbook = null;
         let containsHeader = false;
@@ -39,7 +39,7 @@ let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
             parseData = babyparse.parse(parseData, {
                 header: containsHeader,
                 complete: (results) => {
-                    parseData = csvHelper.onParseComplete(results, header, scrubOptions.duplicates);
+                    parseData = csvHelper.onParseComplete(dirInfo, results, header, scrubOptions.duplicates);
                     resolve(parseData);
                 }
             });
@@ -51,13 +51,12 @@ let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
                 babyparse.parse(XLSX.utils.sheet_to_csv(workbook.Sheets[key]), {
                     header: containsHeader,
                     complete: (results) => {
-                        csvData = _.concat(csvData, csvHelper.onParseComplete(results, header, scrubOptions.duplicates));
+                        csvData = _.concat(csvData, csvHelper.onParseComplete(dirInfo, results, header, scrubOptions.duplicates));
                     }
                 });
             });
 
             parseData = csvData[0];
-
             for (let i = 1; i < csvData.length; i++) {
                 if (csvData[i].data) {
                     parseData.data = _.concat(parseData.data, csvData[i].data);

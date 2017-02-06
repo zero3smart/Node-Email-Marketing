@@ -9,17 +9,17 @@ const commonHelper = require('../common');
 const settings = require('../../config/settings');
 const log = require('../log');
 
-let startValidation = (directory, files, header, scrubOptions) => {
+let startValidation = (dirInfo, directory, files, header, scrubOptions) => {
     return promise.map(files, function (file) {
         log.info('readFileAndRemoveDuplicates');
-        return readFileAndRemoveDuplicates(directory, file, header, scrubOptions);
+        return readFileAndRemoveDuplicates(dirInfo, directory, file, header, scrubOptions);
     }).then((result) => {
         log.info('staticRemover.start');
         return staticRemover.start(result, header, scrubOptions);
     });
 };
 
-let readFileAndRemoveDuplicates = (directory, fileName, header, scrubOptions) => {
+let readFileAndRemoveDuplicates = (dirInfo, directory, fileName, header, scrubOptions) => {
 
     let filePath = directory + '/' + fileName;
     let cleanDirectory = directory + '/' + settings.cleanDirectory + '/';
@@ -28,7 +28,7 @@ let readFileAndRemoveDuplicates = (directory, fileName, header, scrubOptions) =>
     let delimiter = null;
 
     return fileHelper.ensureDirectoryExists(cleanDirectory)
-        .then(() => handler.readFromFileAndRemoveDupes(filePath, header, scrubOptions))
+        .then(() => handler.readFromFileAndRemoveDupes(dirInfo, filePath, header, scrubOptions))
         .then((result) => {
             result.report = result.report || {};
             if(result.delimiter) {

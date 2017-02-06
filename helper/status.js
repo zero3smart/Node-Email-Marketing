@@ -41,6 +41,25 @@ let updateStatus = (cleanId, userName, status, errorMessage) => {
 
 };
 
+let updateRecordCount = (cleanId, userName, numOfRecords) => {
+
+    log.info('updating record count for cleanId: ', cleanId);
+
+    return dbHelper.dbClient.collection('scrub_stats')
+        .update(
+            {
+                cleanId: cleanId,
+                userName: userName
+            }, {
+                $set: {
+                    numOfRecords: numOfRecords
+                }
+            }, {
+                upsert: false,
+                multi: false
+            });
+};
+
 let updateSummary = (cleanId, userName, summary) => {
 
     log.info('updating summary for cleanId: ', cleanId);
@@ -82,6 +101,10 @@ let getStatus = (cleanId) => {
                     updatedOn: currentStatus.date
                 };
 
+                if(scrubStats.numOfRecords) {
+                    status.numOfRecords = scrubStats.numOfRecords;
+                }
+
                 if(currentStatus.status === config.settings.scrubbingStatus.completion) {
                     status.summary = scrubStats.summary;
                 }
@@ -100,5 +123,6 @@ let getStatus = (cleanId) => {
 module.exports = {
     updateStatus: updateStatus,
     updateSummary: updateSummary,
+    updateRecordCount: updateRecordCount,
     getStatus: getStatus
 };

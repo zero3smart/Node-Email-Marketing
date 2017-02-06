@@ -49,7 +49,7 @@ let loadReportMapper = (dirInfo, files) => {
 let startValidation = (directory, files, header, scrubOptions, dirInfo) => {
     return statusHelper.updateStatus(dirInfo.cleanId, dirInfo.userName, settingsConfig.scrubbingStatus.validation)
         .then(() => {
-            return validationHelper.start(directory, files, header, scrubOptions);
+            return validationHelper.start(dirInfo, directory, files, header, scrubOptions);
         });
 };
 

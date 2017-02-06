@@ -8,8 +8,9 @@ const _ = require('lodash');
 const babyparse = require('babyparse');
 const globalConfig = require('../../config/global');
 const log = require('../log');
+const statusHelper = require('../status');
 
-let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
+let readFromFileAndRemoveDupes = (dirInfo, filePath, header, scrubOptions) => {
     log.info('readFromFileAndRemoveDupes: CSV');
     let containsHeader = false;
 
@@ -22,7 +23,7 @@ let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
         babyparse.parseFiles(filePath, {
             header: containsHeader,
             complete: (results) => {
-                resolve(onParseComplete(results, header, scrubOptions.duplicates));
+                resolve(onParseComplete(dirInfo, results, header, scrubOptions.duplicates));
             },
             error: (err, file, inputElem, reason) => {
                 reject(err);
@@ -32,7 +33,7 @@ let readFromFileAndRemoveDupes = (filePath, header, scrubOptions) => {
     });
 };
 
-let onParseComplete = (results, header, scrubDuplicate) => {
+let onParseComplete = (dirInfo, results, header, scrubDuplicate) => {
     let csvData = {};
     let uniqueData = [];
     let containsHeader = false;
@@ -44,7 +45,7 @@ let onParseComplete = (results, header, scrubDuplicate) => {
     if (_.isObject(header) && header.header === true) {
         containsHeader = true;
     }
-
+    statusHelper.updateRecordCount(dirInfo.cleanId, dirInfo.userName, results.data.length);
     if (results.data && results.data.length) {
 
         /*
