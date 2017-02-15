@@ -221,7 +221,7 @@ let checkEmail = (results, header) => {
 
                         result.report.saveReports.push(
                             {
-                                reportName: 'Advisory Traps',
+                                reportName: 'Advisory Informants',
                                 data: advisoryTraps,
                                 intact: true,
                                 detailReport: advisories
