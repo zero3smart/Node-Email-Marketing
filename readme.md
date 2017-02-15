@@ -2,7 +2,7 @@
 
 Inside the API root directory, run the following command:
 
-`NODE_ENV=staging forever --max_old_space_size=24576 start ./bin/www`
+`NODE_ENV=staging forever --max_old_space_size=20480 start ./bin/www`
 
 **Stopping the API:**
 
