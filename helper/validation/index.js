@@ -8,6 +8,8 @@ const staticRemover = require('./staticlistremover/index');
 const commonHelper = require('../common');
 const settings = require('../../config/settings');
 const log = require('../log');
+const dbHelper = require('../database');
+
 
 let startValidation = (directory, files, header, scrubOptions) => {
     return promise.map(files, function (file) {
@@ -45,6 +47,27 @@ let readFileAndRemoveDuplicates = (directory, fileName, header, scrubOptions) =>
         });
 };
 
+let checkValidation = (email) => {
+    console.log("coming soon");
+
+    let findQuery = {
+        email: email
+    };
+
+
+    var p = new Promise(function(resolve, reject) {
+        dbHelper.dbClient.collection('static_list_emails_deliverables').findOne(findQuery,function(err, res) {
+            if (err)
+                reject(err);
+            else
+                resolve(res);
+        });
+    });
+
+    return p;
+};
+
 module.exports = {
-    start: startValidation
+    start: startValidation,
+    check: checkValidation
 };

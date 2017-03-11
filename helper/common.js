@@ -66,6 +66,8 @@ let getReportMapper = () => {
         });
 };
 
+
+
 let saveUserRequest = (userRequest) => {
     return dbHelper.dbClient.collection('user_scrub_requests')
         .insert(userRequest);

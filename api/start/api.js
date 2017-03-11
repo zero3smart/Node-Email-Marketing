@@ -5,6 +5,7 @@
 const helper = require('../../helper');
 const responseHelper = helper.response;
 const searchHelper = helper.search;
+const validationHelper = helper.validation;
 const config = require('../../config');
 const _ = require('lodash');
 const promise = require('bluebird');
@@ -50,6 +51,21 @@ module.exports = {
                 responseHelper.success(response, result);
             });
     },
+
+    check_valid: (request, response) => {
+        log.info('------ check_valid Request -------');
+        let email = request.body.email || {};
+
+        validationHelper.check(email)
+                .then((result) => {
+                    console.log(result);
+                    responseHelper.success(response, {valid: result.deliverables});
+                },(error) => {
+                    console.log(error);
+                    responseHelper.failure(response, error);
+                });
+    },
+
     clean: (request, response, params) => {
         log.info('----- REQUEST RECEIVED -----');
 
