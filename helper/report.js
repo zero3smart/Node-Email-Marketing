@@ -12,9 +12,9 @@ const fileHelper = require('./file');
 const moment = require('moment');
 const log = require('./log');
 
-let saveReports = (report, directory, header) => {
+let saveReports = (report, directory, header, dirPath) => {
 
-    let cleanDirectory = directory + '/' + settings.cleanDirectory + '/';
+    let cleanDirectory = directory + '/' + dirPath + '/';
 
     return promise.map(report.files, function (fileReport) {
         if (!fileReport.reports) {
@@ -51,7 +51,7 @@ let saveReports = (report, directory, header) => {
     })
         .then(() => {
             log.info('Creating PDF report');
-            return createPDFReport(report, directory);
+            return createPDFReport(report, directory, dirPath);
         })
         .then(() => {
             log.info('Zipping all the files');
@@ -59,7 +59,7 @@ let saveReports = (report, directory, header) => {
         })
         .then(() => {
             log.info('Uploading the zip to FTP');
-            return fileHelper.saveZipToFTP(report);
+            return fileHelper.saveZipToFTP(report, dirPath);
         }).catch((e) => {
             log.error('ERROR CATCHED IN REPORT!', e);
             throw e;
@@ -67,9 +67,9 @@ let saveReports = (report, directory, header) => {
 
 };
 
-let createPDFReport = (report, directory) => {
+let createPDFReport = (report, directory, dirPath) => {
 
-    let cleanDirectory = directory + '/' + settings.cleanDirectory + '/';
+    let cleanDirectory = directory + '/' + dirPath + '/';
     let options = {
         "format": "Letter",
         /*"header": {

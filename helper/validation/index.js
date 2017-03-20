@@ -11,20 +11,20 @@ const log = require('../log');
 const dbHelper = require('../database');
 
 
-let startValidation = (directory, files, header, scrubOptions) => {
+let startValidation = (directory, files, header, scrubOptions, dirPath) => {
     return promise.map(files, function (file) {
         log.info('readFileAndRemoveDuplicates');
-        return readFileAndRemoveDuplicates(directory, file, header, scrubOptions);
+        return readFileAndRemoveDuplicates(directory, file, header, scrubOptions, dirPath);
     }).then((result) => {
         log.info('staticRemover.start');
         return staticRemover.start(result, header, scrubOptions);
     });
 };
 
-let readFileAndRemoveDuplicates = (directory, fileName, header, scrubOptions) => {
+let readFileAndRemoveDuplicates = (directory, fileName, header, scrubOptions, dirPath) => {
 
     let filePath = directory + '/' + fileName;
-    let cleanDirectory = directory + '/' + settings.cleanDirectory + '/';
+    let cleanDirectory = directory + '/' + dirPath + '/';
     let fileExtension = commonHelper.getFileExtension(fileName).toLowerCase();
     let handler = commonHelper.geFileHandler(fileExtension);
     let delimiter = null;

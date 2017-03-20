@@ -115,7 +115,6 @@ let getFTPFiles = (dirInfo) => {
                         throw e;
                     }
                 })
-
         })
         .catch((e) => {
             log.error('ERROR CATCHED IN getUserFTPConfiguration call!', e);
@@ -123,7 +122,7 @@ let getFTPFiles = (dirInfo) => {
         })
 };
 
-let saveZipToFTP = (report) => {
+let saveZipToFTP = (report, dirPath) => {
     let ftp = null;
 
     return commonHelper.getUserFTPConfiguration(report.userName)
@@ -135,9 +134,9 @@ let saveZipToFTP = (report) => {
                 user: ftpConfig.UserName, // defaults to "anonymous"
                 pass: ftpConfig.Password // defaults to "@anonymous"
             });
-            let remoteFile = 'clean/' + report.cleanId + '.zip';
+            let remoteFile = dirPath + '/' + report.cleanId + '.zip';
             let localDirectory = config.global.userUploadsDir + '/' + report.userName + '/' + report.cleanId + '/';
-            let localFile = localDirectory + 'clean/' + report.cleanId + '.zip';
+            let localFile = localDirectory + dirPath + '/' + report.cleanId + '.zip';
 
             ftp = promise.promisifyAll(ftp);
 

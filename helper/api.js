@@ -49,11 +49,11 @@ let loadReportMapper = (dirInfo, files) => {
 let startValidation = (directory, files, header, scrubOptions, dirInfo) => {
     return statusHelper.updateStatus(dirInfo.cleanId, dirInfo.userName, settingsConfig.scrubbingStatus.validation)
         .then(() => {
-            return validationHelper.start(directory, files, header, scrubOptions);
+            return validationHelper.start(directory, files, header, scrubOptions, dirInfo.directory);
         });
 };
 
-let saveReports = (results, report, directory, time, header) => {
+let saveReports = (results, report, directory, time, header, dirPath) => {
     report.endTime = new Date().getTime();
     report.totalRecordsAfterClean = 0;
     report.totalPreCleanRecords = 0;
@@ -76,7 +76,7 @@ let saveReports = (results, report, directory, time, header) => {
     });
 
     report.timeRequired = time.end('clean');
-    return reportHelper.saveReports(report, directory, header);
+    return reportHelper.saveReports(report, directory, header, dirPath);
 };
 
 let sendResponse = (finalReport, response, dirInfo) => {

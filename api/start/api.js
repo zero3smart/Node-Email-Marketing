@@ -74,6 +74,7 @@ module.exports = {
             fileName: query.fileName,
             cleanId: new objectID(),
             userName: query.userName,
+            directory: config.settings.cleanDirectory
         };
         let header = query.header || {
                 header: false,
@@ -142,7 +143,7 @@ module.exports = {
             })
             .then((result) => {
                 log.info('# 6. Saving Reports');
-                return apiHelper.saveReports(result, report, directory, time, header);
+                return apiHelper.saveReports(result, report, directory, time, header, dirInfo.directory);
             })
             .then((finalReport) => {
                 log.info('# 7. Sending Response');
