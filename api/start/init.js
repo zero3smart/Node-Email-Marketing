@@ -7,6 +7,7 @@ const api = require('./api');
 let initStart = (app) => {
     app.get('/status', api.status);
     app.post('/clean', api.clean);
+    app.post('/verify_clean', api.verify_clean);
     app.post('/check_valid', api.check_valid);
     app.get('/search', api.search);
 };

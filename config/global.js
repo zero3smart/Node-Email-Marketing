@@ -28,7 +28,8 @@ module.exports = {
         departmentals: false,
         foreignDomains: false,
         threatStrings: false,
-        threatEndings: false
+        threatEndings: false,
+        deliverables: false
     },
     emailKeyNames: [
         'email',
@@ -39,7 +40,7 @@ module.exports = {
         'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'Þ'
     ],
     latinCapitalLettersRegex: /[ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ]/gi,
-    latingEnglishMapper: 
+    latingEnglishMapper:
         {
             'À': 'a',
             'Á': 'a',
@@ -72,5 +73,5 @@ module.exports = {
             'Ý': 'y',
             'Þ': 'thorn'
         }
-    
+
 };

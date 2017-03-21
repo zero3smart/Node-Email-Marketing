@@ -38,6 +38,7 @@ module.exports = {
         'verizon.net'
     ],
     cleanDirectory: 'clean',
+    verifyCleanDirectory: 'verify_clean',
     reportMapper: null,
     scrubbingStatus: {
         upload: 'upload',
